@@ -29,7 +29,9 @@ tpl_add_post = SimpleTemplate('''
                 <p style="text-align: center;"><span style="font-family:arial,helvetica,sans-serif;">URL </span></p>
                 <p style="text-align: center;"><span style="font-family:arial,helvetica,sans-serif;">{{url}}</span></p>
                 <p style="text-align: center;"><span style="font-family:arial,helvetica,sans-serif;">has been shortened to </span></p>
-                <p style="text-align: center;"><span style="font-family:arial,helvetica,sans-serif;">/{{res}}</span></p>
+                <p style="text-align: center;"><span style="font-family:arial,helvetica,sans-serif;">{{res}}</span></p>
+                <p style="text-align: center;"><span style="font-family:arial,helvetica,sans-serif;">and can be accessed at: </span></p>
+                <p style="text-align: center;"><span style="font-family:arial,helvetica,sans-serif;">{{new_url}}</span></p>
             </body>
         </html>
         ''')
@@ -71,6 +73,7 @@ def ss(url):
 def default():
     return tpl_default.render()
 
+
 @app.route('/add', method='GET')
 def show_form():
     return tpl_add_get.render()
@@ -79,7 +82,8 @@ def show_form():
 def process_form():
     url = request.forms.get('url')
     res = ss(url)
-    return  tpl_add_post.render(url=url, res=res)
+    new_url = str(request.urlparts[0])+"://"+str(request.urlparts[1])+"/"+str(res)
+    return  tpl_add_post.render(url=url, res=res, new_url=new_url)
 
 @app.route('/<url_id>')
 def redirect_url(url_id):
