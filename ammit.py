@@ -73,7 +73,6 @@ def ss(url):
 def default():
     return tpl_default.render()
 
-
 @app.route('/add', method='GET')
 def show_form():
     return tpl_add_get.render()
