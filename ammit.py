@@ -81,7 +81,7 @@ def show_form():
 def process_form():
     url = request.forms.get('url')
     res = ss(url)
-    new_url = "/".join(["http:/",request.get_header('Host'), res])
+    new_url = "/".join([request.get_header('Origin'), res])
     return  tpl_add_post.render(url=url, res=res, new_url=new_url)
 
 @app.route('/<url_id>')
